@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema de Monitoramento - Manutenção de Carretas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <div id="auth-section" class="login-container">
+    <div class="card shadow border-0">
+      <div class="card-body p-4">
+        <h3 class="text-center mb-4">Acesso Manutenção</h3>
+        <div class="mb-3">
+          <label class="form-label">E-mail</label>
+          <input type="email" id="login-email" class="form-control" placeholder="usuario@empresa.com"/>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Senha</label>
+          <input type="password" id="login-pass" class="form-control" placeholder="******"/>
+        </div>
+        <button class="btn btn-primary w-100" id="btn-login">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-content" class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="fw-bold text-dark m-0">Registro de Recuperação de Carretas</h2>
+      <div class="d-flex align-items-center gap-3">
+        <span class="status-indicator">Ativo: <strong id="current-tab-label">Carretas GO</strong></span>
+        <span id="user-display" class="text-muted small"></span>
+        <button class="btn btn-outline-danger btn-sm" id="btn-logout">Sair</button>
+      </div>
+    </div>
+    <ul class="nav nav-tabs" id="fleetTabs" role="tablist">
+      <li class="nav-item"><button class="nav-link active" onclick="switchTab('F1GO', 'Carretas GO')">Carretas GO</button></li>
+      <li class="nav-item"><button class="nav-link" onclick="switchTab('F2PO', 'Carretas PO')">Carretas PO</button></li>
+    </ul>
+
+    <div class="table-container">
+      <div class="row g-2 mb-4" id="form-compressor">
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Data de Início</label>
+          <input type="date" id="f-ra-dataInicio" class="form-control"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Data de Término</label>
+          <input type="date" id="f-ra-dataTermino" class="form-control"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Carreta</label>
+          <input type="text" id="f-ra-carreta" class="form-control" placeholder="Exemplo: CJ 052"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">O.S tipo 8</label>
+          <input type="text" id="f-ra-os" class="form-control" placeholder="Número da O.S"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Executante</label>
+          <input type="text" id="f-ra-executante" class="form-control" placeholder="Nome do responsável"/>
+        </div>
+
+        <!-- Itens a Serem Verificados -->
+        <div class="col-md-6">
+          <label class="form-label small text-muted fw-bold">Itens a Serem Verificados</label>
+          <div class="services-grid" id="f-ra-servicos-container">
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Verificados todos os itens"><label class="form-check-label small">Verificados todos os itens</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Verificar esteira (Talisca, furos, desgaste e tensionamento)"><label class="form-check-label small">Verificar esteira (Talisca, furos, desgaste e tensionamento)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Laterais amassadas (Verificar alinhamento e as 5 roscas M4)"><label class="form-check-label small">Laterais amassadas (Verificar alinhamento e as 5 roscas M4)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Roletes (Verificar rolamentos e sujeiras impregnadas)"><label class="form-check-label small">Roletes (Verificar rolamentos e sujeiras impregnadas)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Verificar Engrenagens Brancas (Folga 0,5mm desgastes e dentes quebrados)"><label class="form-check-label small">Verificar Engrenagens Brancas (Folga 0,5mm desgastes e dentes quebrados)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Aneis de trava do eixo tracionador (Verificar por impacto)"><label class="form-check-label small">Aneis de trava do eixo tracionador (Verificar por impacto)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Rolamento do mancal polia branca"><label class="form-check-label small">Rolamento do mancal polia branca</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Mancal de plástico"><label class="form-check-label small">Mancal de plástico</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Limpar rosca interna M16 base"><label class="form-check-label small">Limpar rosca interna M16 base</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Limpar rosca externa M16 haste"><label class="form-check-label small">Limpar rosca externa M16 haste</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Trocar rodízios pequenos"><label class="form-check-label small">Trocar rodízios pequenos</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Trocar rodízios grandes"><label class="form-check-label small">Trocar rodízios grandes</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Verificar diâmetro da polia (Contato com flaps) 81mm  (<80,5 Substituir)"><label class="form-check-label small">Verificar diâmetro da polia (Contato com flaps) 81mm  (<80,5 Substituir)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Articulações (Buchinhas e parafusos)"><label class="form-check-label small">Articulações (Buchinhas e parafusos)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Ossinho (verificar folga)"><label class="form-check-label small">Ossinho (verificar folga)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Ossão (Verificar folga)"><label class="form-check-label small">Ossão (Verificar folga)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Chapa em L ancoragem (Verificar alinhamento e os furos chanfrados)"><label class="form-check-label small">Chapa em L ancoragem (Verificar alinhamento e os furos chanfrados)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Tencionamento do rolete tracionador (7,5mm padrão e 12mm para polias 77mm)"><label class="form-check-label small">Tencionamento do rolete tracionador (7,5mm padrão e 12mm para polias 77mm)</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Esquadro e alinhamento da base"><label class="form-check-label small">Esquadro e alinhamento da base</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Numerar a carreta"><label class="form-check-label small">Numerar a carreta</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Fazer etiqueta de identificação"><label class="form-check-label small">Fazer etiqueta de identificação</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Fazer O.S"><label class="form-check-label small">Fazer O.S</label></div>
+            <div class="form-check"><input class="form-check-input chk-servico" type="checkbox" value="Conferir se a esteira está livre (Não está pesada para movimentar"><label class="form-check-label small">Conferir se a esteira está livre (Não está pesada para movimentar</label></div>
+            <div class="form-check">
+              <input class="form-check-input chk-servico" type="checkbox" value="Outros" id="chk-outros" onchange="toggleOutrosEspecificar()">
+              <label class="form-check-label small">Outros (Especificar)</label>
+            </div>
+            <input type="text" id="f-ra-outros-especificar" class="form-control form-control-sm mt-1 d-none" placeholder="Quais outros itens?" />
+          </div>
+        </div>
+
+        <!-- Materiais Utilizados com Quantidade -->
+        <div class="col-md-6">
+          <label class="form-label small text-muted fw-bold">Materiais Utilizados</label>
+          <div class="services-grid" id="f-ra-materiais-container">
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Ossinho" id="mat-ossinho" onchange="toggleMaterialQty('mat-ossinho', 'qty-ossinho')">
+                  <label class="form-check-label small" for="mat-ossinho">Ossinho</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-ossinho" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Ossão" id="mat-ossao" onchange="toggleMaterialQty('mat-ossao', 'qty-ossao')">
+                  <label class="form-check-label small" for="mat-ossao">Ossão</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-ossao" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Rodízio Pequeno" id="mat-rod_p" onchange="toggleMaterialQty('mat-rod_p', 'qty-rod_p')">
+                  <label class="form-check-label small" for="mat-rod_p">Rodízio Pequeno</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-rod_p" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Rodízio Grande" id="mat-rod_g" onchange="toggleMaterialQty('mat-rod_g', 'qty-rod_g')">
+                  <label class="form-check-label small" for="mat-rod_g">Rodízio Grande</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-rod_g" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Mancal de Plástico" id="mat-mancal" onchange="toggleMaterialQty('mat-mancal', 'qty-mancal')">
+                  <label class="form-check-label small" for="mat-mancal">Mancal de Plástico</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-mancal" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Lateral reforçada" id="mat-lateral_r" onchange="toggleMaterialQty('mat-lateral_r', 'qty-lateral_r')">
+                  <label class="form-check-label small" for="mat-lateral_r">Lateral reforçada</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-lateral_r" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Lateral flágil" id="mat-lateral_f" onchange="toggleMaterialQty('mat-lateral_f', 'qty-lateral_f')">
+                  <label class="form-check-label small" for="mat-lateral_f">Lateral flágil</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-lateral_f" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Guia esquerdo" id="mat-guia_e" onchange="toggleMaterialQty('mat-guia_e', 'qty-guia_e')">
+                  <label class="form-check-label small" for="mat-guia_e">Guia esquerdo</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-guia_e" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Guia direito" id="mat-guia_d" onchange="toggleMaterialQty('mat-guia_d', 'qty-guia_d')">
+                  <label class="form-check-label small" for="mat-guia_d">Guia direito</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-guia_d" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Polia flap" id="mat-polia" onchange="toggleMaterialQty('mat-polia', 'qty-polia')">
+                  <label class="form-check-label small" for="mat-polia">Polia flap</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-polia" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Mancal articulações" id="mat-m_art" onchange="toggleMaterialQty('mat-m_art', 'qty-m_art')">
+                  <label class="form-check-label small" for="mat-m_art">Mancal articulações</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-m_art" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Engrenagem branca" id="mat-engrenagem" onchange="toggleMaterialQty('mat-engrenagem', 'qty-engrenagem')">
+                  <label class="form-check-label small" for="mat-engrenagem">Engrenagem branca</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-engrenagem" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+            <div class="row align-items-center mb-2">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Esteira" id="mat-esteira" onchange="toggleMaterialQty('mat-esteira', 'qty-esteira')">
+                  <label class="form-check-label small" for="mat-esteira">Esteira</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-esteira" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+            <div class="row align-items-center">
+              <div class="col-8">
+                <div class="form-check mb-0">
+                  <input class="form-check-input chk-material" type="checkbox" value="Outros Materiais" id="mat-outros" onchange="toggleMaterialQty('mat-outros', 'qty-outros')">
+                  <label class="form-check-label small" for="mat-outros">Outros Materiais</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <input type="number" id="qty-outros" class="form-control form-control-sm d-none" placeholder="Qtd" min="1" value=""/>
+              </div>
+            </div>
+            <input type="text" id="f-ra-mat-outros-especificar" class="form-control form-control-sm mt-2 d-none" placeholder="Especifique qual outro material..." />
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <label class="form-label small text-muted">Observação</label>
+          <textarea id="f-ra-observacao" class="form-control" rows="4" placeholder="Notas adicionais..."></textarea>
+        </div>
+
+        <div class="col-12 d-flex gap-2 mt-2">
+          <button class="btn btn-success btn-add" id="btn-save" onclick="saveData()">Salvar Registro</button>
+          <button class="btn btn-secondary btn-sm d-none" id="btn-cancel-edit" onclick="cancelEdit()">✖ Cancelar Edição</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="header-actions d-flex justify-content-between mb-3">
+        <input type="text" class="form-control w-50" id="search-input" placeholder="Pesquisar nesta aba..." onkeyup="searchTable()"/>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm" onclick="exportCSV()">📥 Exportar CSV (Aba Atual)</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle" id="main-table">
+          <thead class="table-light">
+            <tr>
+              <th>Data Início</th>
+              <th>Data Término</th>
+              <th>Carreta</th>
+              <th>O.S</th>
+              <th>Executante</th>
+              <th>Itens Verificados</th>
+              <th>Materiais Utilizados</th>
+              <th>Observação</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>

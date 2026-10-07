@@ -1,0 +1,174 @@
+:root {
+  --primary-color: #4f46e5; /* Indigo moderno */
+  --secondary-color: #64748b;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+}
+
+body {
+  background-color: var(--bg-color);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1e293b;
+}
+
+/* Tela de Login Moderna */
+.login-container {
+  max-width: 420px;
+  margin: 120px auto;
+}
+
+.login-container .card {
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+#app-content {
+  display: none;
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Navegação em Abas (Tabs) */
+.nav-tabs {
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 25px;
+}
+
+.nav-tabs .nav-link {
+  color: var(--secondary-color);
+  font-weight: 600;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-tabs .nav-link:hover {
+  color: var(--primary-color);
+  background-color: rgba(79, 70, 229, 0.04);
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom: 3px solid var(--primary-color);
+  color: var(--primary-color);
+  background: transparent;
+}
+
+/* Container do Formulário e Tabela */
+.table-container {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+}
+
+/* Inputs e Botões */
+.form-control, .form-select {
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  transition: all 0.2s;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: #4338ca;
+  border-color: #4338ca;
+}
+
+.btn-add {
+  height: 42px;
+}
+
+.editing-mode {
+  background-color: #fef3c7 !important;
+  border: 2px solid #f59e0b !important;
+}
+
+.truncate {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-indicator {
+  font-size: 0.85rem;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: #f1f5f9;
+  border: 1px solid var(--border-color);
+  color: #475569;
+}
+
+/* Caixas de Seleção (Grid de Itens e Materiais) */
+.services-grid {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+/* Badges modernos */
+.badge-service {
+  background-color: #e0e7ff;
+  color: #3730a3;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin: 3px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.badge-material {
+  background-color: #d1fae5;
+  color: #065f46;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin: 3px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* Ajustes na Tabela */
+.table {
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+  padding: 12px;
+}
+
+.table tbody td {
+  padding: 12px;
+  color: #334155;
+}
